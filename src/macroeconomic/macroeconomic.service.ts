@@ -1,5 +1,5 @@
-import db from '../drizzle/db.ts';
-import { gdp, population, gdp_per_capita, exchange_rate, TexchangeRateSelect, Tgdp_per_capitaSelect, TpopulationSelect, TgdpSelect } from '../drizzle/schema.ts';
+import db from '../drizzle/db';
+import { gdp, population, gdp_per_capita, exchange_rate, TexchangeRateSelect, Tgdp_per_capitaSelect, TpopulationSelect, TgdpSelect } from '../drizzle/schema';
 
 export const fetchGdp = async ():Promise<TgdpSelect[]|null> => {
     return await db.query.gdp.findMany();

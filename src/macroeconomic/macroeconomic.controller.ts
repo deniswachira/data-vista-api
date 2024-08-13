@@ -11,7 +11,7 @@ export const gdp = async (c: Context) => {
             return c.text('No GDP data found', 404);
         }
     } catch (error) {
-        return c.json(error.message, 500);
+        return c.json({msg:"error"}, 500);
     }
 }
 //get population data
@@ -24,7 +24,7 @@ export const population = async (c: Context) => {
             return c.text('No population data found', 404);
         }
     } catch (error) {
-        return c.json(error.message, 500);
+        return c.json({ msg: "error" },  500);
     }
 }
 
@@ -38,7 +38,7 @@ export const gdpPerCapita = async (c: Context) => {
             return c.text('No GDP per Capita data found', 404);
         }
     } catch (error) {
-        return c.json(error.message, 500);
+        return c.json({ msg: "error" },  500);
     }
 }
 
@@ -52,6 +52,6 @@ export const exchangeRate = async (c: Context) => {
             return c.text('No Exchange Rate data found', 404);
         }
     } catch (error) {
-        return c.json(error.message, 500);
+        return c.json({ msg: "error" }, 500);
     }
 }

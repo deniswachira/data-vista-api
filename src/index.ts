@@ -16,8 +16,8 @@ import { userRouter } from './users/user.router';
 // import csv from 'csv-parser';
 dotenv.config();
 
-import db from "../src/drizzle/db.ts";
-import { exchange_rate, gdp, population, share_prices, gdp_per_capita } from './drizzle/schema.ts';
+import db from "../src/drizzle/db";
+import { exchange_rate, gdp, population, share_prices, gdp_per_capita } from './drizzle/schema';
 import axios from 'axios';
 // import path from 'path';
 // import fs from 'fs';
@@ -62,20 +62,19 @@ app.get('/', async (c) => {
 // });
 
 // Fetch and store GDP per Capita data
-app.get('/api/fetch-gdp-per-capita', async (c) => {
-  const response = await axios.get('https://api.worldbank.org/v2/country/KE/indicator/NY.GDP.PCAP.CD?date=2010:2023&format=json');
-  const gdpPerCapitaData = response.data[1];
+// app.get('/api/fetch-gdp-per-capita', async (c) => {
+//   const response = await axios.get('https://api.worldbank.org/v2/country/KE/indicator/NY.GDP.PCAP.CD?date=2010:2023&format=json');
+//   const gdpPerCapitaData = response.data[1];
 
-  for (const entry of gdpPerCapitaData) {
-    await db.insert(gdp_per_capita).values({
-      year: entry.date,
-      value: entry.value,
-    });
-  }
+//   for (const entry of gdpPerCapitaData) {
+//     await db.insert(gdp_per_capita).values({
+//       year: entry.date,
+//       value: entry.value,
+//     });
+//   }
 
-  return c.json({ message: 'GDP per Capita data fetched and stored successfully!' });
-}
-);
+//   return c.json({ message: 'GDP per Capita data fetched and stored successfully!' });
+// }
 
 // Fetch and store Population data
 // app.get('/api/fetch-population', async (c) => {
