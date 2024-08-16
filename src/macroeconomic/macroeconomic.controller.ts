@@ -1,5 +1,5 @@
 import { Context } from "hono";
-import { fetchExchangeRate, fetchGdp, fetchGdpPerCapita, fetchPopulation } from "./macroeconomic.service";
+import { fetchExchangeRate, fetchGdp, fetchGdpPerCapita, fetchInflationRate, fetchPopulation, fetchSafaricomSharePrices } from "./macroeconomic.service";
 
 //get gdp data
 export const gdp = async (c: Context) => {
@@ -50,6 +50,35 @@ export const exchangeRate = async (c: Context) => {
             return c.json(exchangeRateData);
         }else{
             return c.text('No Exchange Rate data found', 404);
+        }
+    } catch (error) {
+        return c.json({ msg: "error" }, 500);
+    }
+}
+
+//inflation rate
+export const inflationRate = async (c: Context) => {
+    try {
+        const inflationRateData = await fetchInflationRate();
+        if (inflationRateData) {
+            return c.json(inflationRateData);
+        }else{
+            return c.text('No Inflation Rate data found', 404);
+        }
+    } catch (error) {
+        return c.json({ msg: "error" }, 500);
+    }
+}
+
+//safaricom share prices
+export const safaricomSharePrices = async (c: Context) => {
+    try {
+        const safaricomSharePricesData = await fetchSafaricomSharePrices();
+        if (safaricomSharePricesData) {
+            return c.json(safaricomSharePricesData);
+        }
+        else {
+            return c.text('No Safaricom Share Prices data found', 404);
         }
     } catch (error) {
         return c.json({ msg: "error" }, 500);

@@ -3,7 +3,7 @@ import { Context } from "hono";
 import {  registerUserService} from "./auth.service";
 import bcrypt from 'bcrypt';
 import { sign } from "hono/jwt";
-import { getUserByEmailService} from "../users/user.service";
+import { getUserByEmailService, updateUserService} from "../users/user.service";
 
 //register
 export const createUser = async (c: Context) => {
@@ -45,6 +45,7 @@ export const loginUser = async (c: Context) => {
              full_name: userExists.full_name,
              role: userExists.role,
              email: userExists.email,
+             isPremium: userExists.isPremium,
              exp: Math.floor(Date.now() / 1000) + (60 * 180)
          };
          let secret = process.env.JWT_SECRET as string;  // Secret key
@@ -61,4 +62,5 @@ export const loginUser = async (c: Context) => {
      return c.text(error?.message, 400);
    }
 };
+
 

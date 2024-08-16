@@ -1,7 +1,7 @@
 import {Hono} from 'hono';
 import { zValidator } from '@hono/zod-validator';
 import {updateUserValidator } from '../validators/user.validator';
-import {  getUserById,  updateUser } from './user.controller';
+import {  checkUserIsPremium, getUserById,  updateUser, upgradeToPremium } from './user.controller';
 // import { adminRoleAuth } from '../middleWare/bearAuth';
 
 
@@ -14,4 +14,8 @@ userRouter.get("/users/:user_id", getUserById)
 //update a user
 userRouter.put("/users/:user_id", zValidator('json',updateUserValidator,(result,c)=>{    if(!result.success) return c.text( result.error.message + "😒",400)}), updateUser)
 
+//check if user is premium
+userRouter.get("/users/:user_id/isPremium", checkUserIsPremium)
 
+//upgrade user to premium
+userRouter.put("/users/:user_id/upgrade",  upgradeToPremium)

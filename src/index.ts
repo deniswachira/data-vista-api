@@ -13,12 +13,13 @@ import dotenv from 'dotenv';
 import { macroeconomicRouter } from './macroeconomic/macroeconomic.router';
 import { authRouter } from './auth/auth.router';
 import { userRouter } from './users/user.router';
-// import csv from 'csv-parser';
+// // import csv from 'csv-parser';
+// import csvtojson from 'csvtojson';
 dotenv.config();
 
-import db from "../src/drizzle/db";
-import { exchange_rate, gdp, population, share_prices, gdp_per_capita } from './drizzle/schema';
-import axios from 'axios';
+// import db from "../src/drizzle/db";
+// import { exchange_rate, gdp, population, share_prices, gdp_per_capita,inflation_rate, safaricom_share_prices } from './drizzle/schema';
+// import axios from 'axios';
 // import path from 'path';
 // import fs from 'fs';
 
@@ -132,7 +133,7 @@ app.get('/', async (c) => {
 
 
 // Fetch and store Safaricom Share Prices data
-// import csvtojson from 'csvtojson';
+
 
 // app.get('/api/fetch-share-price', async (c) => {
 //   const csvFilePath = path.join(__dirname, 'utils', 'HistoricalPrices.csv');
@@ -167,10 +168,86 @@ app.get('/', async (c) => {
 
 //     return c.json({ message: 'Share price data from CSV stored successfully!' });
 //   } catch (err) {
-//     return c.json({ message: 'Error processing share price data', error: err.message }, 500);
+//     return c.json({ message: 'Error processing share price data', error: (err as any).message }, 500);
 //   }
 // });
 
+
+// Fetch and store Inflation Rate data
+// app.get('/api/fetch-inflation-rate', async (c) => {
+//   const csvFilePath = path.join(__dirname, 'utils', 'InflationRate.csv');
+
+//   try {
+//     // Convert CSV to JSON
+//     const jsonArray = await csvtojson().fromFile(csvFilePath);
+
+//     const results: { month: string; value: number }[] = jsonArray.map((row) => {
+//       const monthField = row['Month']?.trim();
+//       const valueField = row['Inflation']?.trim();
+
+//       if (monthField && valueField) {
+//         const month = monthField;
+//         const value = parseFloat(valueField);
+
+//         if (!isNaN(value)) {
+//           return { month, value };
+//         }
+//       }
+//       return null;
+//     }).filter(Boolean) as { month: string; value: number }[];
+
+//     // Insert the parsed data into the database
+//     for (const entry of results) {
+//       await db.insert(inflation_rate).values({
+//         month: entry.month,  // Storing month as text
+//         value: entry.value,  // Storing value as numeric
+//       });
+//     }
+
+//     return c.json({ message: 'Inflation rate data from CSV stored successfully!' });
+//   } catch (err) {
+//     return c.json({ message: 'Error processing inflation rate data', error: (err as any).message }, 500);
+//   }
+// }
+// );
+
+//fetch and store safaricom share prices
+// app.get('/api/fetch-safaricom-share-prices', async (c) => {
+//   const csvFilePath = path.join(__dirname, 'utils', 'HistoricalSafaricomSharePrices.csv');
+
+//   try {
+//     // Convert CSV to JSON
+//     const jsonArray = await csvtojson().fromFile(csvFilePath);
+
+//     const results: { date: string; close: number }[] = jsonArray.map((row) => {
+//       const dateField = row['Date']?.trim();
+//       const closeField = row['Close']?.trim();
+
+//       if (dateField && closeField) {
+//         const [month, day, year] = dateField.split('/');
+//         const date = `20${year}-${month}-${day}`;  // Convert to YYYY-MM-DD format
+//         const close = parseFloat(closeField);
+
+//         if (!isNaN(close)) {
+//           return { date, close };
+//         }
+//       }
+//       return null;
+//     }).filter(Boolean) as { date: string; close: number }[];
+
+//     // Insert the parsed data into the database
+//     for (const entry of results) {
+//       await db.insert(safaricom_share_prices).values({
+//         date: entry.date,  // Storing date as text
+//         close: entry.close,  // Storing close price as numeric
+//       });
+//     }
+
+//     return c.json({ message: 'Safaricom share prices data from CSV stored successfully!' });
+//   } catch (err) {
+//     return c.json({ message: 'Error processing Safaricom share prices data', error: (err as any).message }, 500);
+//   }
+// });
 
 app.notFound((c) => {
   return c.text('Route Not Found 😊', 404)

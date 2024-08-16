@@ -1,4 +1,5 @@
-import { pgTable, serial, text, numeric, pgEnum, varchar ,timestamp} from "drizzle-orm/pg-core";
+
+import { pgTable, serial, text, boolean,numeric, pgEnum, varchar ,timestamp} from "drizzle-orm/pg-core";
 
 //roleEnum
 export const roleEnum = pgEnum("role", ['admin', 'user', 'disabled']);
@@ -12,6 +13,7 @@ export const userTable = pgTable("userTable", {
         phone_number: varchar("phone_number"),
         address: varchar("address"),
         role: roleEnum('role').default('user'),
+        isPremium: boolean('isPremium').default(false),
         created_at: timestamp("created_at").defaultNow(),
         updated_at: timestamp("updated_at").defaultNow(),
 });
@@ -47,6 +49,18 @@ export const share_prices = pgTable('share_prices', {
         close: numeric('close').notNull(),
 });
 
+export const inflation_rate = pgTable('inflation_rate', {
+        id: serial('id').primaryKey(),
+        month: text('month').notNull(),
+        value: numeric('value').notNull(),
+});
+
+export const safaricom_share_prices = pgTable('safaricom_share_prices', {
+        id: serial('id').primaryKey(),
+        date: text('date').notNull(),
+        close: numeric('close').notNull(),
+});
+
 
 //infer types
 export type TUserInsert = typeof userTable.$inferInsert;
@@ -66,5 +80,11 @@ export type TsharePricesSelect = typeof share_prices.$inferSelect;
 
 export type Tgdp_per_capitaInsert = typeof gdp_per_capita.$inferInsert;
 export type Tgdp_per_capitaSelect = typeof gdp_per_capita.$inferSelect;
+
+export type TinflationRateInsert = typeof inflation_rate.$inferInsert;
+export type TinflationRateSelect = typeof inflation_rate.$inferSelect;
+
+export type TsafaricomSharePricesInsert = typeof safaricom_share_prices.$inferInsert;
+export type TsafaricomSharePricesSelect = typeof safaricom_share_prices.$inferSelect;
 
 //export all tables
