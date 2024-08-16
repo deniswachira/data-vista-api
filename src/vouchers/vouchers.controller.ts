@@ -49,7 +49,7 @@ export const createVoucher = async (c: Context) => {
     }
 }
 
-export const checkoutBooking = async (c: Context) => {
+export const checkoutPayment = async (c: Context) => {
     let amount: number;
     try {
         amount = await c.req.json();
@@ -107,15 +107,8 @@ export const handleStripeWebhook = async (c: Context) => {
     switch (event.type) {
         case 'checkout.session.completed':
             const session = event.data.object as Stripe.Checkout.Session;
-            // Update payment status in the database
-            try {
-                const session_id = session.id;
-                // const updateStatus = await updatePaymentBySessionIdService(session_id);
-                // return c.json({ payment: updateStatus }, 200);
-                return c.json({ payment: session }, 200);
-            } catch (err: any) {
-                return c.text(`Database Error: ${err.message}`, 500);
-            }
+            // Update isPremium status in the database
+            const user_id = parseInt(session.client_reference_id as string);
 
         // Handle other event types as needed
         default:
