@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import { createVoucherService, fetchVouchersService, getVoucherByCodeService } from "./vouchers.service";
 import Stripe from 'stripe';
 import { FRONTEND_URL } from "../proxxy/proxxy";
+import { upgrateToPremiumService } from "../users/user.service";
 dotenv.config();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, { apiVersion: '2024-06-20' });
 //get vouchers
@@ -50,19 +51,19 @@ export const createVoucher = async (c: Context) => {
 }
 
 export const checkoutPayment = async (c: Context) => {
-    let amount: number;
+    let checkoutPayload;
     try {
-        amount = await c.req.json();
+        checkoutPayload = await c.req.json();
     } catch (error) {
         return c.text("Invalid request body", 400);
     }
     try {
-        if (!amount) {
-            return c.text("Missing total amount", 400);
+        if (!checkoutPayload.amount || checkoutPayload.user_id === undefined) {
+            return c.text("Missing total amount and user ID", 400);
         }
 
         const conversionRate = 0.007;
-        const totalAmountInUsd = amount * conversionRate;
+        const totalAmountInUsd = checkoutPayload.amount * conversionRate;
         const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [{
             price_data: {
                 currency: 'usd',
@@ -79,6 +80,7 @@ export const checkoutPayment = async (c: Context) => {
             mode: 'payment',
             success_url: `${FRONTEND_URL}`,
             cancel_url: `${FRONTEND_URL}`,
+            client_reference_id: checkoutPayload.user_id
         };
         const session: Stripe.Checkout.Session = await stripe.checkout.sessions.create(sessionParams);      
 
@@ -109,7 +111,9 @@ export const handleStripeWebhook = async (c: Context) => {
             const session = event.data.object as Stripe.Checkout.Session;
             // Update isPremium status in the database
             const user_id = parseInt(session.client_reference_id as string);
-
+            const res = await upgrateToPremiumService(user_id);
+            console.log(res);
+            return c.json({result: res}, 200);
         // Handle other event types as needed
         default:
             return c.text(`Unhandled event type ${event.type}`, 400);
