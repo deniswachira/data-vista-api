@@ -18,6 +18,14 @@ export const userTable = pgTable("userTable", {
         updated_at: timestamp("updated_at").defaultNow(),
 });
 
+//voucher table
+export const voucherTable = pgTable("voucherTable", {
+        voucher_id: serial("voucher_id").primaryKey(),
+        voucher_code: varchar("voucher_code").notNull().unique(),
+        created_at: timestamp("created_at").defaultNow(),
+        updated_at: timestamp("updated_at").defaultNow(),
+});
+
 export const gdp = pgTable('gdp', {
         id: serial('id').primaryKey(),
         year: serial('year').notNull(),
@@ -86,5 +94,8 @@ export type TinflationRateSelect = typeof inflation_rate.$inferSelect;
 
 export type TsafaricomSharePricesInsert = typeof safaricom_share_prices.$inferInsert;
 export type TsafaricomSharePricesSelect = typeof safaricom_share_prices.$inferSelect;
+
+export type TvoucherInsert = typeof voucherTable.$inferInsert;
+export type TvoucherSelect = typeof voucherTable.$inferSelect;
 
 //export all tables

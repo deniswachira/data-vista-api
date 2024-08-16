@@ -13,6 +13,8 @@ import dotenv from 'dotenv';
 import { macroeconomicRouter } from './macroeconomic/macroeconomic.router';
 import { authRouter } from './auth/auth.router';
 import { userRouter } from './users/user.router';
+import { voucherRouter } from './vouchers/vouchers.router';
+import { handleStripeWebhook } from './vouchers/vouchers.controller';
 // // import csv from 'csv-parser';
 // import csvtojson from 'csvtojson';
 dotenv.config();
@@ -253,11 +255,13 @@ app.notFound((c) => {
   return c.text('Route Not Found 😊', 404)
 })
 app.get('/metrics', printMetrics)
+app.post('/webhook', handleStripeWebhook)
 
 //custom routes
 app.route("/", authRouter)
 app.route("/", userRouter)
 app.route('/', macroeconomicRouter);
+app.route('/', voucherRouter)
 
 
 

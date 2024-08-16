@@ -50,6 +50,9 @@ importers:
       nodemailer:
         specifier: ^6.9.14
         version: 6.9.14
+      stripe:
+        specifier: ^16.8.0
+        version: 16.8.0
       zod:
         specifier: ^3.23.8
         version: 3.23.8
@@ -1107,6 +1110,10 @@ packages:
     resolution: {integrity: sha512-kwrX1y7czp1E69n2ajbG65mIo9dqvJ+8aBQXOGVxqwvNbsXdFM6Lq37dLAY3mknUwru8CfcCbfOLL/gMo+fi3g==}
     engines: {node: '>=0.10.0'}
 
+  stripe@16.8.0:
+    resolution: {integrity: sha512-6rOIcGOkxcc29jvhEyOYmpPFilekOBV+7vpemAoIAfbtCRW1yxzdDGM0/0vyekHglLL+wqGpP5ldrhO3dJ2JEQ==}
+    engines: {node: '>=12.*'}
+
   tar@6.2.1:
     resolution: {integrity: sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==}
     engines: {node: '>=10'}
@@ -1959,6 +1966,11 @@ snapshots:
   strip-bom@2.0.0:
     dependencies:
       is-utf8: 0.2.1
+
+  stripe@16.8.0:
+    dependencies:
+      '@types/node': 20.14.13
+      qs: 6.11.0
 
   tar@6.2.1:
     dependencies:
