@@ -78,8 +78,8 @@ export const checkoutPayment = async (c: Context) => {
             payment_method_types: ['card'],
             line_items,
             mode: 'payment',
-            success_url: `${FRONTEND_URL}`,
-            cancel_url: `${FRONTEND_URL}`,
+            success_url: `${FRONTEND_URL}/dashboard/me`,
+            cancel_url: `${FRONTEND_URL}/dashboard/me`,
             client_reference_id: checkoutPayload.user_id
         };
         const session: Stripe.Checkout.Session = await stripe.checkout.sessions.create(sessionParams);      
