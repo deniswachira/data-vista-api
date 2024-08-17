@@ -15,15 +15,15 @@ import { authRouter } from './auth/auth.router';
 import { userRouter } from './users/user.router';
 import { voucherRouter } from './vouchers/vouchers.router';
 import { handleStripeWebhook } from './vouchers/vouchers.controller';
-// // import csv from 'csv-parser';
-// import csvtojson from 'csvtojson';
+import csv from 'csv-parser';
+import axios from 'axios';
+import fs from 'fs';
 dotenv.config();
 
+// import csvtojson from 'csvtojson';
 // import db from "../src/drizzle/db";
 // import { exchange_rate, gdp, population, share_prices, gdp_per_capita,inflation_rate, safaricom_share_prices } from './drizzle/schema';
-// import axios from 'axios';
 // import path from 'path';
-// import fs from 'fs';
 
 
 const app = new Hono();
