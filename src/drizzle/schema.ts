@@ -51,6 +51,13 @@ export const exchange_rate = pgTable('exchange_rate', {
         value: numeric('value').notNull(),
 });
 
+export const usd_exchange_rate = pgTable('usd_exchange_rate', {
+        id: serial('id').primaryKey(),
+        date: text('date').notNull(),
+        value: numeric('value').notNull(),
+});
+
+
 export const share_prices = pgTable('share_prices', {
         id: serial('id').primaryKey(),
         date: text('date').notNull(),
@@ -97,5 +104,8 @@ export type TsafaricomSharePricesSelect = typeof safaricom_share_prices.$inferSe
 
 export type TvoucherInsert = typeof voucherTable.$inferInsert;
 export type TvoucherSelect = typeof voucherTable.$inferSelect;
+
+export type TUsdExchangeRateInsert = typeof usd_exchange_rate.$inferInsert;
+export type TUsdExchangeRateSelect = typeof usd_exchange_rate.$inferSelect;
 
 //export all tables

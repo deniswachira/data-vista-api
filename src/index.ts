@@ -22,7 +22,7 @@ dotenv.config();
 
 // import csvtojson from 'csvtojson';
 // import db from "../src/drizzle/db";
-// import { exchange_rate, gdp, population, share_prices, gdp_per_capita,inflation_rate, safaricom_share_prices } from './drizzle/schema';
+// import { exchange_rate, gdp, population, share_prices, gdp_per_capita,inflation_rate, safaricom_share_prices, usd_exchange_rate } from './drizzle/schema';
 // import path from 'path';
 
 
@@ -97,7 +97,7 @@ app.get('/', async (c) => {
 // Fetch and store Exchange Rate data
 
 // app.get('/api/fetch-exchange-rate', async (c) => {
-//   const csvFilePath = path.join(__dirname, 'utils', 'exchange_rate.csv');
+//   const csvFilePath = path.join(__dirname, 'utils', 'USD_KESHistoricalData.csv');
 
 //   try {
 //     // Convert CSV to JSON
@@ -105,23 +105,26 @@ app.get('/', async (c) => {
 
 //     const results: { date: string; value: number }[] = jsonArray.map((row) => {
 //       const dateField = row['Date']?.trim();
-//       const valueField = row['Mean']?.trim();
+//       const valueField = row['Price']?.trim();
 
+//       // Ensure both fields are present and valid
 //       if (dateField && valueField) {
-//         const [day, month, year] = dateField.split('-');
-//         const date = `${year}-${month}-${day}`;  // Convert to YYYY-MM-DD format
+//         // Convert date from MM/DD/YYYY to YYYY-MM-DD format
+//         const [month, day, year] = dateField.split('/');
+//         const date = `${year}-${month}-${day}`;
 //         const value = parseFloat(valueField);
 
+//         // Check if the value is a valid number
 //         if (!isNaN(value)) {
 //           return { date, value };
 //         }
 //       }
-//       return null;
+//       return null; // Skip the row if data is invalid
 //     }).filter(Boolean) as { date: string; value: number }[];
 
 //     // Insert the parsed data into the database
 //     for (const entry of results) {
-//       await db.insert(exchange_rate).values({
+//       await db.insert(usd_exchange_rate).values({
 //         date: entry.date,  // Storing date as text
 //         value: entry.value,  // Storing value as numeric
 //       });
@@ -132,6 +135,7 @@ app.get('/', async (c) => {
 //     return c.json({ message: 'Error processing exchange rate data', error: err.message }, 500);
 //   }
 // });
+
 
 
 // Fetch and store Safaricom Share Prices data

@@ -13,7 +13,7 @@ export const fetchGdpPerCapita = async (): Promise<Tgdp_per_capitaSelect[]|null>
     return await db.query.gdp_per_capita.findMany();
 }
 export const fetchExchangeRate = async (): Promise<TexchangeRateSelect[]|null> => {
-    return await db.query.exchange_rate.findMany();
+    return await db.query.usd_exchange_rate.findMany();
 }
 
 export const fetchInflationRate = async (): Promise<TinflationRateSelect[]|null> => {
